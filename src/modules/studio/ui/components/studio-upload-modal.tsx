@@ -21,11 +21,15 @@ export const StudioUploadModal = () => {
     <>
       <ResponsiveModal
         title="Upload a video"
-        open={!!create.data}
+        open={!!create.data?.url}
         onOpenChange={() => create.reset()}
       >
         {/* <p>This will be an uploader</p> */}
-        <StudioUploader />
+        {create.data?.url ? (
+          <StudioUploader endpoint={create.data?.url} onSuccess={() => {}} />
+        ) : (
+          <Loader2 className="animate-spin" />
+        )}
       </ResponsiveModal>
       <Button
         variant={"secondary"}

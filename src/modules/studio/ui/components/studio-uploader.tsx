@@ -4,6 +4,9 @@ import MuxUploader, {
   MuxUploaderProgress,
   MuxUploaderStatus,
 } from "@mux/mux-uploader-react";
+import { Upload } from "lucide-react";
+
+const UPLOADER_ID = "video-uploader";
 
 interface StudioUploaderProps {
   endpoint?: string | null;
@@ -16,7 +19,18 @@ export const StudioUploader = ({
 }: StudioUploaderProps) => {
   return (
     <div className="">
-      <MuxUploader />
+      <MuxUploader
+        id="video-uploader"
+        endpoint={endpoint}
+        className="hidden group/uploader"
+      />
+      <MuxUploaderDrop muxUploader={UPLOADER_ID} className="group/drop">
+        <div slot="holding" className="flex flex-col items-center gap-6">
+          <div>
+            <Upload />
+          </div>
+        </div>
+      </MuxUploaderDrop>
     </div>
   );
 };
