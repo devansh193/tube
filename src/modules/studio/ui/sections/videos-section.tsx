@@ -1,5 +1,4 @@
 "use client";
-
 import { Suspense } from "react";
 import { trpc } from "@/trpc/client";
 import { DEFAULT_LIMIT } from "@/constants";
