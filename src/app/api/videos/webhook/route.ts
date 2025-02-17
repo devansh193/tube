@@ -60,6 +60,9 @@ export const POST = async (request: Request) => {
         return new Response("Missing playback Id", { status: 400 });
       }
       const thumbnailUrl = `https://image.mux.com/${playbackId}/thumbnail.jpg`;
+      const previewUrl = `https://image.mux.com/${playbackId}/animated.gif`;
+      const duration = data.duration ? Math.round(data.duration * 1000) : 0;
+
       await db
         .update(videos)
         .set({
@@ -67,6 +70,8 @@ export const POST = async (request: Request) => {
           muxPlaybackId: playbackId,
           musAssetId: data.id,
           thumbnailUrl,
+          previewUrl,
+          duration,
         })
         .where(eq(videos.muxUploadId, data.upload_id));
       break;
