@@ -38,6 +38,7 @@ export const ourFileRouter = {
         .where(and(eq(videos.id, input.videoId), eq(videos.userId, user.id)));
 
       if (!existingVideo) throw new UploadThingError("NOT_FOUND");
+
       if (existingVideo.thumbnailKey) {
         const utapi = new UTApi();
         await utapi.deleteFiles(existingVideo.thumbnailKey);
@@ -48,7 +49,6 @@ export const ourFileRouter = {
             and((eq(videos.id, input.videoId), eq(videos.userId, user.id)))
           );
       }
-
       return { user, ...input };
     })
     .onUploadComplete(async ({ metadata, file }) => {
