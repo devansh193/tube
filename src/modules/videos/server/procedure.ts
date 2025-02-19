@@ -1,5 +1,12 @@
+import { z } from "zod";
 import { db } from "@/db";
-import { users, videos, videoUpdateSchema, videoViews } from "@/db/schema";
+import {
+  users,
+  videoReactions,
+  videos,
+  videoUpdateSchema,
+  videoViews,
+} from "@/db/schema";
 import { mux } from "@/lib/mux";
 import {
   baseProcedure,
@@ -7,9 +14,8 @@ import {
   protectedProcedure,
 } from "@/trpc/init";
 import { TRPCError } from "@trpc/server";
-import { and, eq, getTableColumns } from "drizzle-orm";
 import { UTApi } from "uploadthing/server";
-import { z } from "zod";
+import { and, eq, getTableColumns } from "drizzle-orm";
 
 export const videosRouter = createTRPCRouter({
   getOne: baseProcedure
@@ -22,6 +28,20 @@ export const videosRouter = createTRPCRouter({
             ...getTableColumns(users),
           },
           videoCount: db.$count(videoViews, eq(videoViews.videoId, videos.id)),
+          likeCount: db.$count(
+            videoReactions,
+            and(
+              eq(videoReactions.videoId, videos.id),
+              eq(videoReactions.type, "like")
+            )
+          ),
+          dislikeCount: db.$count(
+            videoReactions,
+            and(
+              eq(videoReactions.videoId, videos.id),
+              eq(videoReactions.type, "dislike")
+            )
+          ),
         })
         .from(videos)
         .innerJoin(users, eq(videos.userId, users.id))

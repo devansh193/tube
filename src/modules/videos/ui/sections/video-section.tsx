@@ -3,7 +3,7 @@
 import { cn } from "@/lib/utils";
 import { Suspense } from "react";
 import { trpc } from "@/trpc/client";
-import { SignedIn, useAuth } from "@clerk/nextjs";
+import { useAuth } from "@clerk/nextjs";
 import { ErrorBoundary } from "react-error-boundary";
 import { VideoPlayer } from "../components/video-player";
 import { VideoBanner } from "../components/video-banner";
