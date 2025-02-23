@@ -95,7 +95,6 @@ export const videosRouter = createTRPCRouter({
       //   users.id,
       //   viewerReaction.type
       // );
-
       if (!existingVideo) {
         throw new TRPCError({ code: "NOT_FOUND" });
       }

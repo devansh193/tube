@@ -5,7 +5,7 @@ import { baseProcedure, createTRPCRouter } from "@/trpc/init";
 import { and, desc, eq, getTableColumns, lt, or } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
 
-export const suggestionsRouter = createTRPCRouter({
+export const suggestionRouter = createTRPCRouter({
   getMany: baseProcedure
     .input(
       z.object({
@@ -21,6 +21,7 @@ export const suggestionsRouter = createTRPCRouter({
     )
     .query(async ({ input }) => {
       const { videoId, cursor, limit } = input;
+
       const [existingVideo] = await db
         .select()
         .from(videos)
@@ -32,20 +33,11 @@ export const suggestionsRouter = createTRPCRouter({
         .select({
           ...getTableColumns(videos),
           user: users,
-          viewCount: db.$count(eq(videoViews.videoId, videos.id)),
-          likeCount: db.$count(
-            videoReactions,
-            and(
-              eq(videoReactions.videoId, videos.id),
-              eq(videoReactions.type, "like")
-            )
-          ),
+          viewCount: db.$count(videoViews, eq(videoViews.videoId, videos.id)),
+          likeCount: db.$count(videoReactions, eq(videoReactions.type, "like")),
           dislikeCount: db.$count(
             videoReactions,
-            and(
-              eq(videoReactions.videoId, videos.id),
-              eq(videoReactions.type, "dislike")
-            )
+            eq(videoReactions.type, "dislike")
           ),
         })
         .from(videos)
