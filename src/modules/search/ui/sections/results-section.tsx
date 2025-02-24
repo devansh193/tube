@@ -14,7 +14,6 @@ import {
   VideoGridCardSkeleton,
 } from "@/modules/videos/ui/components/video-grid-card";
 import { InfiniteScroll } from "@/components/infinite-scroll";
-import { CategoriesSectionSuspense } from "./category-section";
 
 interface ResultsSectionProps {
   query: string | undefined;

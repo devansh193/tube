@@ -19,8 +19,8 @@ const items = [
     auth: true,
   },
   {
-    title: "Subscriptions",
-    url: "/feed/subscription",
+    title: "Subscribed",
+    url: "/feed/subscribed",
     icon: PlaySquareIcon,
     auth: true,
   },
