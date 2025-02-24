@@ -124,17 +124,17 @@ export const videosRouter = createTRPCRouter({
 
       const duration = asset.duration ? Math.round(asset.duration * 1000) : 0;
 
-      const [updateVideo] = await db
+      const [updatedVideo] = await db
         .update(videos)
         .set({
           muxStatus: asset.status,
           muxPlaybackId: asset.playback_ids?.[0].id,
-          musAssetId: asset.id,
+          muxAssetId: asset.id,
           duration,
         })
         .where(and(eq(videos.id, input.id), eq(videos.userId, userId)))
         .returning();
-      return updateVideo;
+      return updatedVideo;
     }),
   restoreThumbnailProcedure: protectedProcedure
     .input(z.object({ id: z.string().uuid() }))
