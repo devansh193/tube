@@ -19,6 +19,37 @@ import {
 
 export const reactionType = pgEnum("reaction_type", ["like", "dislike"]);
 
+export const playlistVideos = pgTable(
+  "playlist_videos",
+  {
+    playlistId: uuid("playlist_id")
+      .references(() => playlists.id, { onDelete: "cascade" })
+      .notNull(),
+    videoId: uuid("video_id")
+      .references(() => videos.id, { onDelete: "cascade" })
+      .notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (t) => [
+    primaryKey({
+      name: "playlist_video_pk",
+      columns: [t.playlistId, t.videoId],
+    }),
+  ]
+);
+
+export const playlistVideosRelations = relations(playlistVideos, ({ one }) => ({
+  playlist: one(playlists, {
+    fields: [playlistVideos.playlistId],
+    references: [playlists.id],
+  }),
+  video: one(videos, {
+    fields: [playlistVideos.videoId],
+    references: [videos.id],
+  }),
+}));
+
 export const users = pgTable(
   "users",
   {
@@ -44,6 +75,24 @@ export const userRelations = relations(users, ({ many }) => ({
   }),
   comments: many(comments),
   commentReactions: many(commentReactions),
+  playlist: many(playlists),
+}));
+
+export const playlists = pgTable("playlist", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  name: text("name").notNull(),
+  description: text("description"),
+  userId: uuid("user_id").references(() => users.id, { onDelete: "cascade" }),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const playlistRelations = relations(playlists, ({ one, many }) => ({
+  playlist: one(users, {
+    fields: [playlists.userId],
+    references: [users.id],
+  }),
+  playlistVideos: many(playlistVideos),
 }));
 
 export const subscriptions = pgTable(
@@ -148,6 +197,7 @@ export const videoRelations = relations(videos, ({ one, many }) => ({
   views: many(videoViews),
   reactions: many(videoReactions),
   comments: many(comments),
+  playlistVideos: many(playlistVideos),
 }));
 
 export const comments = pgTable(
