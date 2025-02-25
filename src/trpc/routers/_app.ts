@@ -9,18 +9,20 @@ import { suggestionRouter } from "@/modules/suggestions/server/procedures";
 import { subscriptionsRouter } from "@/modules/subscriptions/server/procedures";
 import { videoReactionRouter } from "@/modules/video-reactions/server/procedure";
 import { commentReactionRouter } from "@/modules/comment-reactions/server/procedure";
+import { playlistRouter } from "@/modules/playlist/server/procedure";
 
 export const appRouter = createTRPCRouter({
   studio: studioRouter,
   videos: videosRouter,
-  categories: categoriesRouter,
-  videoViews: videoViewsRouter,
-  videoReactions: videoReactionRouter,
-  subscriptions: subscriptionsRouter,
-  comments: commentsRouter,
-  commentReactions: commentReactionRouter,
-  suggestions: suggestionRouter,
   search: searchRouter,
+  comments: commentsRouter,
+  playlist: playlistRouter,
+  videoViews: videoViewsRouter,
+  categories: categoriesRouter,
+  suggestions: suggestionRouter,
+  subscriptions: subscriptionsRouter,
+  videoReactions: videoReactionRouter,
+  commentReactions: commentReactionRouter,
 });
 
 export type AppRouter = typeof appRouter;

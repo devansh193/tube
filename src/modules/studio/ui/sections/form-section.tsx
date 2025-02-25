@@ -20,6 +20,7 @@ import {
   ImagePlusIcon,
   Lock,
   MoreVerticalIcon,
+  RefreshCwIcon,
   RotateCcwIcon,
   SparkleIcon,
   Trash,
@@ -163,7 +164,7 @@ const FormSectionSuspense = ({ videoId }: FormSectionProps) => {
               <Button type="submit" disabled={update.isPending}>
                 Save
               </Button>
-              <DropdownMenu>
+              <DropdownMenu modal={false}>
                 <DropdownMenuTrigger asChild>
                   <Button variant={"ghost"} size={"icon"}>
                     <MoreVerticalIcon />
@@ -173,7 +174,7 @@ const FormSectionSuspense = ({ videoId }: FormSectionProps) => {
                   <DropdownMenuItem
                     onClick={() => revalidate.mutate({ id: videoId })}
                   >
-                    <Trash className="size-4 mr-2" />
+                    <RefreshCwIcon className="size-4 mr-2" />
                     Revalidate
                   </DropdownMenuItem>
                   <DropdownMenuItem
@@ -245,7 +246,7 @@ const FormSectionSuspense = ({ videoId }: FormSectionProps) => {
                           src={video.thumbnailUrl || THUMBNAIL_FALLBACK}
                           className="object-cover"
                         />
-                        <DropdownMenu>
+                        <DropdownMenu modal={false}>
                           <DropdownMenuTrigger asChild>
                             <Button
                               type="button"
