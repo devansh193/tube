@@ -47,7 +47,7 @@ export const POST = async (request: Request) => {
       await db
         .update(videos)
         .set({
-          musAssetId: data.id,
+          muxAssetId: data.id,
           muxStatus: data.status,
         })
         .where(eq(videos.muxUploadId, data.upload_id));
@@ -84,7 +84,7 @@ export const POST = async (request: Request) => {
         .set({
           muxStatus: data.status,
           muxPlaybackId: playbackId,
-          musAssetId: data.id,
+          muxAssetId: data.id,
           thumbnailUrl,
           thumbnailKey,
           previewKey,
@@ -132,7 +132,7 @@ export const POST = async (request: Request) => {
           muxTrackId: trackId,
           muxTrackStatus: status,
         })
-        .where(eq(videos.musAssetId, assetId));
+        .where(eq(videos.muxAssetId, assetId));
       break;
     }
   }
