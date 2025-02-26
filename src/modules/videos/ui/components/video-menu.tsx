@@ -1,5 +1,7 @@
 "use client";
-import { ListPlus, MoreVerticalIcon, ShareIcon, Trash2 } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
+import { APP_URL } from "@/constants";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -7,9 +9,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
-import { toast } from "sonner";
-import { APP_URL } from "@/constants";
-import { useState } from "react";
+import { ListPlus, MoreVerticalIcon, ShareIcon, Trash2 } from "lucide-react";
 import { PlaylistAddModal } from "@/modules/playlist/ui/components/playlist-add-modal";
 
 interface VideoMenuProps {
@@ -54,7 +54,7 @@ export const VideoMenu = ({
             Add to playlist
           </DropdownMenuItem>
           {onRemove && (
-            <DropdownMenuItem onClick={() => {}}>
+            <DropdownMenuItem onClick={onRemove}>
               <Trash2 className="mr-2 size-4" />
               Remove
             </DropdownMenuItem>

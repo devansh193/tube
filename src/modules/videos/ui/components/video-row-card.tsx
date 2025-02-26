@@ -1,18 +1,18 @@
-import { cva, VariantProps } from "class-variance-authority";
+import Link from "next/link";
+import { useMemo } from "react";
 import { cn } from "@/lib/utils";
-import { UserInfo } from "@/modules/users/ui/components/user-info";
-import { UserAvatar } from "@/components/user-avatar";
+import { VideoMenu } from "./video-menu";
+import { VideoGetManyOutput } from "../../types";
 import { Skeleton } from "@/components/ui/skeleton";
+import { UserAvatar } from "@/components/user-avatar";
+import { cva, VariantProps } from "class-variance-authority";
+import { UserInfo } from "@/modules/users/ui/components/user-info";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { VideoMenu } from "./video-menu";
 import { VideoThumbnail, VideoThumbnailSkeleton } from "./video-thumbnail";
-import { VideoGetManyOutput } from "../../types";
-import Link from "next/link";
-import { useMemo } from "react";
 
 const videoRowCardVariants = cva("group flex min-w-0", {
   variants: {

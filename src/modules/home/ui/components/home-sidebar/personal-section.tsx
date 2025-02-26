@@ -17,19 +17,19 @@ import { usePathname } from "next/navigation";
 const items = [
   {
     title: "History",
-    url: "/playlist/history",
+    url: "/playlists/history",
     icon: History,
     auth: true,
   },
   {
     title: "Liked videos",
-    url: "/playlist/liked",
+    url: "/playlists/liked",
     icon: ThumbsUpIcon,
     auth: true,
   },
   {
     title: "All playlist",
-    url: "/playlist",
+    url: "/playlists",
     icon: ListVideoIcon,
     auth: true,
   },
