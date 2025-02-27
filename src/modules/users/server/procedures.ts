@@ -7,11 +7,7 @@ import { eq, getTableColumns, inArray, isNotNull } from "drizzle-orm";
 
 export const usersRouter = createTRPCRouter({
   getOne: baseProcedure
-    .input(
-      z.object({
-        id: z.string().uuid(),
-      })
-    )
+    .input(z.object({ id: z.string().uuid() }))
     .query(async ({ input, ctx }) => {
       const { clerkUserId } = ctx;
       let userId;
@@ -46,7 +42,7 @@ export const usersRouter = createTRPCRouter({
         .from(users)
         .leftJoin(
           viewerSubscriptions,
-          eq(viewerSubscriptions.createdAt, users.id)
+          eq(viewerSubscriptions.creatorId, users.id)
         )
         .where(eq(users.id, input.id));
       if (!existingUser) throw new TRPCError({ code: "NOT_FOUND" });
