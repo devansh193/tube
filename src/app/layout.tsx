@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "tube",
-  description: "By Artemislabs",
+  description: "By Artemis labs",
 };
 
 export default function RootLayout({
