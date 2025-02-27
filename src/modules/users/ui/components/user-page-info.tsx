@@ -1,7 +1,9 @@
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 import { UserGetOneOutput } from "../../types";
 import { Button } from "@/components/ui/button";
 import { useAuth, useClerk } from "@clerk/nextjs";
+import { Skeleton } from "@/components/ui/skeleton";
 import { UserAvatar } from "@/components/user-avatar";
 import { UseSubscription } from "@/modules/subscriptions/hooks/use-subscription";
 import { SubscriptionButton } from "@/modules/subscriptions/ui/components/subscription-button";
@@ -9,6 +11,33 @@ import { SubscriptionButton } from "@/modules/subscriptions/ui/components/subscr
 interface UserPageInfoProps {
   user: UserGetOneOutput;
 }
+
+export const UserPageInfoSkeleton = () => {
+  return (
+    <div className="py-6">
+      {/* Mobile layout */}
+      <div className="flex flex-col md:hidden">
+        <div className="flex items-center gap-3">
+          <Skeleton className="h-[60px] w-[60px] rounded-full" />
+          <div className="flex-1 min-w-0">
+            <Skeleton className="h-6 w-32" />
+            <Skeleton className="h-4 w-48 mt-1" />
+          </div>
+        </div>
+        <Skeleton className="h-10 w-full mt-3 rounded-full" />
+      </div>
+      {/* Desktop layout */}
+      <div className="hidden md:flex items-start gap-4">
+        <Skeleton className="h-[160px] w-[160px] rounded-full" />
+        <div className="flex-1 min-w-0">
+          <Skeleton className="h-8 w-64" />
+          <Skeleton className="h-5 w-48 mt-4" />
+          <Skeleton className="h-10 w-32 mt-3 rounded-full" />
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export const UserPageInfo = ({ user }: UserPageInfoProps) => {
   const { userId, isLoaded } = useAuth();
@@ -58,6 +87,43 @@ export const UserPageInfo = ({ user }: UserPageInfoProps) => {
             className="w-full mt-3"
           />
         )}
+      </div>
+      {/* Desktop layout */}
+      <div className="hidden md:flex items-start gap-4">
+        <UserAvatar
+          size={"xl"}
+          imageUrl={user.imageUrl}
+          name={user.name}
+          className={cn(
+            userId === user.clerkId &&
+              "cursor-pointer hover:opacity-80 transition-opacity duration-300"
+          )}
+          onClick={() => {
+            if (user.clerkId === userId) {
+              clerk.openUserProfile();
+            }
+          }}
+        />
+        <div className="flex-1 min-w-0 ">
+          <h1 className="text-4xl font-bold">{user.name}</h1>
+          <div className="flex items-center gap-1 text-sm text-muted-foreground mt-3">
+            <span>{user.subscriberCount} subscribers</span>
+            <span>•</span>
+            <span>{user.videoCount} videos</span>
+          </div>
+          {userId === user.clerkId ? (
+            <Button variant={"secondary"} asChild className="mt-3 rounded-full">
+              <Link href={`/studio`}>Go to studio</Link>
+            </Button>
+          ) : (
+            <SubscriptionButton
+              disable={isPending || !isLoaded}
+              isSubscribed={user.viewerSubscribed}
+              onClick={onClick}
+              className="mt-3"
+            />
+          )}
+        </div>
       </div>
     </div>
   );

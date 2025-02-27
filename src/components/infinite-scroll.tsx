@@ -16,7 +16,7 @@ export const InfiniteScroll = ({
   fetchNextPage,
 }: InfiniteScrollProps) => {
   const { targetRef, isIntersecting } = useIntersectionObserver({
-    thresholds: 0.5,
+    threshold: 0.5,
     rootMargin: "100px",
   });
 
@@ -26,8 +26,8 @@ export const InfiniteScroll = ({
     }
   }, [
     isIntersecting,
-    isFetchingNextPage,
     hasNextPage,
+    isFetchingNextPage,
     isManual,
     fetchNextPage,
   ]);
@@ -37,15 +37,15 @@ export const InfiniteScroll = ({
       <div ref={targetRef} className="h-1" />
       {hasNextPage ? (
         <Button
-          variant={"secondary"}
-          disabled={!hasNextPage || isFetchingNextPage}
-          onClick={() => fetchNextPage()}
+          variant="secondary"
+          disabled={isFetchingNextPage}
+          onClick={fetchNextPage}
         >
           {isFetchingNextPage ? "Loading..." : "Load more"}
         </Button>
       ) : (
         <p className="text-xs text-muted-foreground">
-          You have reached the end of list.
+          You have reached the end of the list.
         </p>
       )}
     </div>
